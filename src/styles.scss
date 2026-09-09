@@ -1,0 +1,201 @@
+/* ============================================================
+   Rogger Express - sistema de diseno
+   ============================================================ */
+
+:root {
+  --navy-900: #0d1b33;
+  --navy-800: #12294a;
+  --navy-700: #1f3864;
+  --navy-600: #2f5496;
+  --navy-100: #dbe5f5;
+  --navy-50:  #eef3fb;
+
+  --naranja-600: #d35400;
+  --naranja-500: #e8590c;
+  --naranja-100: #fde8d7;
+
+  --verde-600: #0b7a43;
+  --verde-100: #d8f3e4;
+  --rojo-600:  #c0392b;
+  --rojo-100:  #fbe1de;
+  --morado-600:#6b3fa0;
+  --morado-100:#ece3f8;
+  --gris-600:  #64748b;
+  --gris-100:  #e9edf3;
+
+  --fondo:     #f4f6fa;
+  --superficie:#ffffff;
+  --borde:     #dfe5ee;
+  --texto:     #16233a;
+  --texto-sec: #64748b;
+
+  --radio:   12px;
+  --radio-sm: 8px;
+  --sombra:  0 1px 2px rgba(15, 34, 68, .06), 0 8px 24px rgba(15, 34, 68, .06);
+  --sombra-sm: 0 1px 3px rgba(15, 34, 68, .10);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 700; color: var(--navy-800); line-height: 1.25; }
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+p  { margin: 0 0 .75rem; }
+a  { color: var(--navy-600); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------------- tarjetas ---------------- */
+.card {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 1.25rem 1.4rem;
+}
+.card__titulo {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-bottom: 1rem;
+  h2, h3 { margin: 0; }
+}
+.card--plano { box-shadow: none; }
+
+/* ---------------- botones ---------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+  padding: .6rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radio-sm);
+  font-size: .92rem; font-weight: 600; font-family: inherit;
+  cursor: pointer;
+  transition: background .15s ease, box-shadow .15s ease, transform .05s ease;
+  white-space: nowrap;
+}
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+
+.btn--primario   { background: var(--naranja-500); color: #fff; }
+.btn--primario:hover:not(:disabled) { background: var(--naranja-600); }
+.btn--secundario { background: var(--navy-700); color: #fff; }
+.btn--secundario:hover:not(:disabled) { background: var(--navy-800); }
+.btn--suave      { background: var(--navy-50); color: var(--navy-700); border-color: var(--navy-100); }
+.btn--suave:hover:not(:disabled) { background: var(--navy-100); }
+.btn--exito      { background: var(--verde-600); color: #fff; }
+.btn--peligro    { background: var(--rojo-600); color: #fff; }
+.btn--contorno   { background: transparent; color: var(--navy-700); border-color: var(--borde); }
+.btn--contorno:hover:not(:disabled) { background: var(--navy-50); }
+.btn--bloque     { width: 100%; }
+.btn--sm         { padding: .38rem .7rem; font-size: .82rem; }
+
+/* ---------------- formularios ---------------- */
+.campo { display: flex; flex-direction: column; gap: .3rem; }
+.campo > label {
+  font-size: .78rem; font-weight: 600; letter-spacing: .02em;
+  text-transform: uppercase; color: var(--texto-sec);
+}
+.campo input, .campo select, .campo textarea {
+  padding: .6rem .75rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background: #fff; color: var(--texto);
+  font: inherit; font-size: .95rem;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  width: 100%;
+}
+.campo input:focus, .campo select:focus, .campo textarea:focus {
+  outline: none;
+  border-color: var(--navy-600);
+  box-shadow: 0 0 0 3px rgba(47, 84, 150, .13);
+}
+.campo input.ng-invalid.ng-touched,
+.campo select.ng-invalid.ng-touched { border-color: var(--rojo-600); }
+.campo__error { font-size: .78rem; color: var(--rojo-600); }
+/* Ayuda breve bajo el campo: explica para que sirve el dato, no como llenarlo. */
+.campo__ayuda { font-size: .78rem; color: var(--texto-sec); }
+/* Marca de campo obligatorio dentro de la etiqueta. */
+.obligatorio { color: var(--rojo-600); font-weight: 700; }
+.campo--check { flex-direction: row; align-items: center; gap: .5rem;
+  label { text-transform: none; font-size: .9rem; letter-spacing: 0; color: var(--texto); }
+  input { width: auto; }
+}
+
+.rejilla { display: grid; gap: 1rem; }
+.rejilla--2 { grid-template-columns: repeat(2, 1fr); }
+.rejilla--3 { grid-template-columns: repeat(3, 1fr); }
+.rejilla--4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ---------------- tablas ---------------- */
+.tabla-contenedor { overflow-x: auto; border-radius: var(--radio); border: 1px solid var(--borde); background: #fff; }
+table.tabla { width: 100%; border-collapse: collapse; font-size: .9rem; }
+table.tabla th {
+  background: var(--navy-700); color: #fff; text-align: left;
+  padding: .7rem .85rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em;
+  white-space: nowrap;
+}
+table.tabla td { padding: .7rem .85rem; border-top: 1px solid var(--borde); vertical-align: middle; }
+table.tabla tbody tr:hover { background: var(--navy-50); }
+table.tabla .mono { font-family: 'Consolas', 'SF Mono', monospace; font-size: .86rem; }
+.tabla__vacia { padding: 2.5rem 1rem; text-align: center; color: var(--texto-sec); }
+
+/* ---------------- insignias de estado ---------------- */
+.badge {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .22rem .6rem; border-radius: 999px;
+  font-size: .76rem; font-weight: 700; white-space: nowrap;
+}
+.badge--azul    { background: var(--navy-50);     color: var(--navy-700); }
+.badge--naranja { background: var(--naranja-100); color: var(--naranja-600); }
+.badge--verde   { background: var(--verde-100);   color: var(--verde-600); }
+.badge--rojo    { background: var(--rojo-100);    color: var(--rojo-600); }
+.badge--morado  { background: var(--morado-100);  color: var(--morado-600); }
+.badge--gris    { background: var(--gris-100);    color: var(--gris-600); }
+
+/* ---------------- utilidades ---------------- */
+.mt-0 { margin-top: 0; }  .mt-1 { margin-top: .5rem; }  .mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; } .mb-2 { margin-bottom: 1rem; } .mb-3 { margin-bottom: 1.5rem; }
+.texto-sec { color: var(--texto-sec); }
+.texto-sm  { font-size: .85rem; }
+.texto-xs  { font-size: .78rem; }
+.negrita   { font-weight: 700; }
+.mono      { font-family: 'Consolas', 'SF Mono', monospace; }
+.fila { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.fila--entre { justify-content: space-between; }
+.centrado { text-align: center; }
+.cargando { padding: 2rem; text-align: center; color: var(--texto-sec); }
+
+@media (max-width: 900px) {
+  .rejilla--4 { grid-template-columns: repeat(2, 1fr); }
+  .rejilla--3, .rejilla--2 { grid-template-columns: 1fr; }
+}
+
+/* ---------------- impresion del comprobante ----------------
+   Los estilos de componente no alcanzan al marco de la aplicacion,
+   por eso la regla de impresion es global: se oculta todo salvo el
+   comprobante, que se imprime solo en la hoja.                        */
+@media print {
+  .lateral, .cabecera, .avisos, app-avisos { display: none !important; }
+  .marco, .marco--compacto { display: block !important; }
+  .contenido { padding: 0 !important; max-width: none !important; }
+
+  body.imprimiendo-comprobante .card:not(.comprobante),
+  body.imprimiendo-comprobante form,
+  body.imprimiendo-comprobante .btn { display: none !important; }
+
+  body.imprimiendo-comprobante .comprobante {
+    box-shadow: none !important; border: none !important;
+    width: 80mm; margin: 0 auto; padding: 0;
+  }
+
+  @page { margin: 10mm; }
+}
