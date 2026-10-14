@@ -1,4 +1,4 @@
-# Rogger Express — Front-end
+# Rogger Express — Front-end waoz
 
 Aplicación web del sistema de gestión de encomiendas, construida con **Angular 18**
 (componentes standalone, signals y control de flujo `@if` / `@for`).
