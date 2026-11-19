@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EnvioService } from '../../core/services/envio.service';
 import { NotificacionService } from '../../core/services/notificacion.service';
 import { AuthService } from '../../core/services/auth.service';
+import { CatalogoService } from '../../core/services/catalogo.service';
 import { Envio } from '../../core/models/modelos';
 
 /**
@@ -23,8 +24,12 @@ import { Envio } from '../../core/models/modelos';
       <div>
         <h1>Mostrador de recojo</h1>
         <p class="texto-sec mt-0">
-          Pida el DNI del cliente y búsquelo aquí. Verá todo lo que puede retirar en
-          <span class="mono">{{ auth.agencia() }}</span>.
+          Pida el DNI del cliente y búsquelo aquí.
+          @if (auth.veTodaLaRed()) {
+            Verá todo lo que esa persona puede retirar en cualquier agencia de la red.
+          } @else {
+            Verá todo lo que puede retirar en <strong>{{ dondeAtiende() }}</strong>.
+          }
         </p>
       </div>
     </div>
@@ -184,6 +189,7 @@ export class MostradorComponent implements OnInit {
   private readonly ruta = inject(ActivatedRoute);
   private readonly avisos = inject(NotificacionService);
   readonly auth = inject(AuthService);
+  private readonly catalogo = inject(CatalogoService);
 
   dni = '';
   receptorNombres = '';
@@ -199,15 +205,38 @@ export class MostradorComponent implements OnInit {
   readonly sinClave = signal(false);
 
   /**
+   * Nombre de la agencia donde trabaja quien atiende. Arranca con el codigo
+   * porque es lo unico que trae el token, y se reemplaza por el nombre en
+   * cuanto llega el catalogo: en la ventanilla se lee el nombre, no el codigo.
+   */
+  readonly dondeAtiende = signal<string>(this.auth.agencia() ?? 'su agencia');
+
+  /**
    * Permite llegar con el documento ya puesto en la direccion
    * (?dni=44556677): util para enlazar un caso concreto o mostrarlo.
    */
   ngOnInit(): void {
+    this.resolverAgencia();
+
     const dni = this.ruta.snapshot.queryParamMap.get('dni');
     if (dni) {
       this.dni = dni;
       this.buscar();
     }
+  }
+
+  /** Si el catalogo no responde, se queda el codigo: nunca deja el texto vacio. */
+  private resolverAgencia(): void {
+    const codigo = this.auth.agencia();
+    if (!codigo || this.auth.veTodaLaRed()) { return; }
+
+    this.catalogo.agencias().subscribe({
+      next: (agencias) => {
+        const propia = agencias.find((a) => a.codigo === codigo);
+        if (propia) { this.dondeAtiende.set(propia.nombre); }
+      },
+      error: () => { /* se conserva el codigo */ },
+    });
   }
 
   buscar(): void {
