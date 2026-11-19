@@ -1,10 +1,15 @@
 export const environment = {
   produccion: true,
-  apiUrl: '/api/v1',
+
+  /** API desplegada en Render, conectada a MongoDB Atlas. */
+  apiUrl: 'https://rogger-backend.onrender.com/api/v1',
+
   nombreSistema: 'Rogger Express',
+
   /**
-   * La versión publicada no tiene back-end detrás: se recorre con los datos de
-   * demostración incluidos en la propia aplicación.
+   * El modo escaparate queda apagado: la aplicación consume la API real.
+   * Si se enciende, responde con datos propios sin salir a la red, que es
+   * como se publicó mientras el back-end no estaba desplegado.
    */
-  demo: true,
+  demo: false,
 };
